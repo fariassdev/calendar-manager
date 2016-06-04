@@ -24,6 +24,8 @@ simple-calendar .next-month {
 simple-calendar .current-month {
   text-align: center;
   padding: 20px 8px;
+  background-color: burlywood;
+  font-size: 3rem;
 }
 
 /* *********************** */
@@ -31,7 +33,7 @@ simple-calendar .current-month {
 /* *********************** */
 
 simple-calendar .week {
-  height: 55px;
+  height: 100px;
 }
 
 simple-calendar .week:last-child .day {
@@ -50,8 +52,9 @@ simple-calendar .week:last-child .day {
 
 simple-calendar .weekday {
   text-align: center;
-  padding-right: 0.9px;
+  padding: 10px;
   border-top: 1px solid #dddddd;
+  background-color: khaki;
 }
 
 simple-calendar .weekday:first-child {
@@ -82,7 +85,7 @@ simple-calendar .week .day:nth-child(7) {
 
 simple-calendar .weekday, .day {
   display: inline-block;
-  width: calc(95% / 7);
+  width: calc(100% / 7);
 }
 
 simple-calendar .day {
@@ -93,6 +96,11 @@ simple-calendar .day {
   border-bottom: none;
   border-left: none;
   overflow: hidden;
+}
+
+simple-calendar .day-number {
+    text-align: center;
+    font-size: 2rem;
 }
 
 simple-calendar .day:hover {
@@ -111,4 +119,11 @@ simple-calendar .day.disabled {
   cursor: default;
   color: silver;
   background-color: white;
+}
+
+simple-calendar .event-title {
+    padding: 2%;
+    text-indent: 10px;
+    background-color: bisque;
+    border-radius: 15px;
 }

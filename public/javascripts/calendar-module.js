@@ -18,12 +18,42 @@ angular.module('calendar-module', []).directive('simpleCalendar', function () {
 
       $scope.onClick = function (date) {
         if (!date || date.disabled) { return; }
-        if (date.event) {
+        if (date.event[0] != null) {
           $scope.options.eventClick(date);
         } else {
           $scope.options.dateClick(date);
         }
       };
+
+      $scope.options.dateClick = function(date) {
+        console.log("He pulsado en una fecha SIN EVENTO");
+      };
+
+      $scope.options.eventClick = function(date) {
+        console.log("He pulsado en una fecha CON EVENTO");
+        //console.log(new Date(2016,6,5,11,8));
+        console.log(date.event[0].title); //Título
+        console.log(date.event[0].date); //Fecha (puedo acceder a los métodos de Date de JS)
+      };
+
+      /* TEST CUSTOM DIALOG WHEN CLICK DATE WITHOUT EVENT */
+      /*$scope.showAdvanced = function(ev) {
+        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+
+        $mdDialog.show({
+          controller: DialogController,
+          templateUrl: 'templates/calendarTemplate.html',
+          parent: angular.element(document.body),
+          targetEvent: ev,
+          clickOutsideToClose:true,
+          fullscreen: useFullScreen
+        })
+        .then(function(answer) {
+          $scope.status = 'You said the information was "' + answer + '".';
+        }, function() {
+          $scope.status = 'You cancelled the dialog.';
+      });*/
+      /* TEST CUSTOM DIALOG WHEN CLICK DATE WITHOUT EVENT */
 
       if ($scope.options.minDate) {
         $scope.options.minDate = new Date($scope.options.minDate);
@@ -33,13 +63,15 @@ angular.module('calendar-module', []).directive('simpleCalendar', function () {
         $scope.options.maxDate = new Date($scope.options.maxDate);
       }
 
-      bindEvent = function (date) {
+      bindEvent = function (date) { //Modificar para contemplar la posibilidad de ponerle Hora y Minuto
         if (!date || !$scope.events) { return; }
         date.event = [];
         $scope.events.forEach(function(event) {
           event.date = new Date(event.date);
-          if (date.year === event.date.getFullYear() && date.month === event.date.getMonth() && date.day === event.date.getDate()) {
-            date.event.push(event);
+          if (date.year === event.date.getFullYear() &&
+            date.month === event.date.getMonth() &&
+            date.day === event.date.getDate()) {
+              date.event.push(event);
           }
         });
       };
