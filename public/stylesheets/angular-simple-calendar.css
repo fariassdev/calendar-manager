@@ -31,9 +31,16 @@ simple-calendar .current-month {
 /* *********************** */
 /* START Week CSS Settings */
 /* *********************** */
+simple-calendar .weeks-wrapper {
+  height: 100%;
+}
 
 simple-calendar .week {
-  height: 100px;
+  height: calc(20vh - 25.01px);
+}
+
+simple-calendar .week.six-rows {
+  height: calc(16.666vh - 26px);
 }
 
 simple-calendar .week:last-child .day {
@@ -122,8 +129,36 @@ simple-calendar .day.disabled {
 }
 
 simple-calendar .event-title {
-    padding: 2%;
-    text-indent: 10px;
-    background-color: bisque;
-    border-radius: 15px;
+  margin-top: 5px;
+  padding: 2%;
+  text-align: center;
+  background-color: bisque;
+  border-radius: 15px;
+}
+
+@media (max-width: 800px), (max-height: 800px) {
+
+  simple-calendar .day-number {
+    font-size: 1.5rem;
+  }
+
+}
+
+@media (max-height: 481px) {
+
+  simple-calendar .event-title {
+    font-size: 1rem;
+  }
+
+}
+
+@media (max-width: 479px), (max-height: 479px) {
+
+  simple-calendar .event-title {
+    font-size: 1rem;
+  }
+
+  simple-calendar .day-number {
+    font-size: 1rem;
+  }
 }

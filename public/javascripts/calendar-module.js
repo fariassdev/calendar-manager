@@ -31,7 +31,6 @@ angular.module('calendar-module', []).directive('simpleCalendar', function () {
 
       $scope.options.eventClick = function(date) {
         console.log("He pulsado en una fecha CON EVENTO");
-        //console.log(new Date(2016,6,5,11,8));
         console.log(date.event[0].title); //Título
         console.log(date.event[0].date); //Fecha (puedo acceder a los métodos de Date de JS)
       };
@@ -154,6 +153,19 @@ angular.module('calendar-module', []).directive('simpleCalendar', function () {
             week = undefined;
           }
         }
+
+        if ($scope.weeks.length == 6) {
+          var arrayWeeks = document.getElementsByClassName("week");
+          for (i=0;i<arrayWeeks.length;i++) {
+            angular.element(arrayWeeks[i]).addClass("six-rows");
+          }
+        } else {
+          var arrayWeeks = document.getElementsByClassName("week");
+          for (i=0;i<arrayWeeks.length;i++) {
+            angular.element(arrayWeeks[i]).removeClass("six-rows");
+          }
+        }
+
       };
 
       calculateSelectedDate = function () {

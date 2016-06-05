@@ -11,12 +11,12 @@
             </div> 
       </div> 
 
-      <div style="width: 100%"> 
+      <div class="week-days-header"> 
             <div ng-repeat="day in weekDays(options.dayNamesLength) track by $index" class="weekday">
                   {{ day }}
             </div> 
       </div> 
-      <div> 
+      <div class="weeks-wrapper"> 
             <div ng-repeat="week in weeks track by $index" class="week"> 
                   <div class="day" 
                   ng-class="{default: isDefaultDate(date), event: date.event.length > 0, disabled: date.disabled || !date}" 
