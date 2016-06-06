@@ -1,4 +1,4 @@
-angular.module('create-event',['ngMaterial', 'ngMessages', 'material.svgAssetsCache'])
+angular.module('create-event',['ngMaterial', 'ngMessages'])
 
 .controller('create-controller', function($scope, $mdDialog, $mdMedia) {
   $scope.status = '  ';

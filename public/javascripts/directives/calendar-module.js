@@ -35,25 +35,6 @@ angular.module('calendar-module', []).directive('simpleCalendar', function () {
         console.log(date.event[0].date); //Fecha (puedo acceder a los métodos de Date de JS)
       };
 
-      /* TEST CUSTOM DIALOG WHEN CLICK DATE WITHOUT EVENT */
-      /*$scope.showAdvanced = function(ev) {
-        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-
-        $mdDialog.show({
-          controller: DialogController,
-          templateUrl: 'templates/calendarTemplate.html',
-          parent: angular.element(document.body),
-          targetEvent: ev,
-          clickOutsideToClose:true,
-          fullscreen: useFullScreen
-        })
-        .then(function(answer) {
-          $scope.status = 'You said the information was "' + answer + '".';
-        }, function() {
-          $scope.status = 'You cancelled the dialog.';
-      });*/
-      /* TEST CUSTOM DIALOG WHEN CLICK DATE WITHOUT EVENT */
-
       if ($scope.options.minDate) {
         $scope.options.minDate = new Date($scope.options.minDate);
       }

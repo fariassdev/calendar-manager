@@ -1,28 +1,36 @@
 <!DOCTYPE html>
-<html ng-app="myApp">
+<html ng-app="calendar-manager">
   <head>
     <title>Calendar Manager</title>
+
+    <!-- Stylesheets -->
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel='stylesheet' href='/stylesheets/angular-simple-calendar.css' />
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+
+    <!-- Angular Libraries -->
   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+
+  	<!-- Firebase Libraries -->
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+
+    <!-- Angular Material Libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-    <!-- Angular Material Library -->
-    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.js"></script>
-  	<script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
-    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
-  	<script type="text/javascript" src="/javascripts/myapp.js"></script>
-    <script type="text/javascript" src="/javascripts/calendar-module.js"></script>
 
+    <!-- Angular app scripts -->
+  	<script type="text/javascript" src="/javascripts/main/main.js"></script>
+  	<script type="text/javascript" src="/javascripts/controllers/dialog.js"></script>
+  	<script type="text/javascript" src="/javascripts/controllers/calendar-options.js"></script>
+  	<script type="text/javascript" src="/javascripts/controllers/main-controller.js"></script>
+    <script type="text/javascript" src="/javascripts/directives/calendar-module.js"></script>
 
-    <simple-calendar events="events" options="calendarOptions"></simple-calendar>
   </head>
-  <body ng-controller="UsersIndexController">
-    <div ng-controller="mainController">
-      <h1> {{jsVariable}} </h1>
-    </div>
+  <body ng-controller="calendar-options">
+    <simple-calendar events="events" options="calendarOptions"></simple-calendar>
   </body>
 </html>
