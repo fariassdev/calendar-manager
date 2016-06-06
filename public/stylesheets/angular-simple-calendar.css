@@ -40,7 +40,7 @@ simple-calendar .week {
 }
 
 simple-calendar .week.six-rows {
-  height: calc(16.666vh - 26px);
+  height: calc(16.666vh - 27.1px);
 }
 
 simple-calendar .week:last-child .day {
@@ -129,7 +129,7 @@ simple-calendar .day.disabled {
 }
 
 simple-calendar .event-title {
-  margin-top: 5px;
+  margin: 5px 10px;
   padding: 2%;
   text-align: center;
   background-color: bisque;
