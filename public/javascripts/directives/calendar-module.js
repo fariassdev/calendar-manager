@@ -1,4 +1,4 @@
-angular.module('calendar-module', []).directive('simpleCalendar', function () {
+angular.module('calendar-module', ['calendar-manager']).directive('simpleCalendar', function () {
   return {
     restrict: 'E',
     scope: {
@@ -18,7 +18,7 @@ angular.module('calendar-module', []).directive('simpleCalendar', function () {
 
       $scope.onClick = function (date) {
         if (!date || date.disabled) { return; }
-        if (date.event[0] != null) {
+        if (date.event != null) {
           $scope.options.eventClick(date);
         } else {
           $scope.options.dateClick(date);
@@ -43,7 +43,7 @@ angular.module('calendar-module', []).directive('simpleCalendar', function () {
         $scope.options.maxDate = new Date($scope.options.maxDate);
       }
 
-      bindEvent = function (date) { //Modificar para contemplar la posibilidad de ponerle Hora y Minuto
+      bindEvent = function (date) { //Modificar para contemplar la posibilidad de ponerle Hora y Minuto !!! -> con new Date("2016-06-02 17:00")
         if (!date || !$scope.events) { return; }
         date.event = [];
         $scope.events.forEach(function(event) {

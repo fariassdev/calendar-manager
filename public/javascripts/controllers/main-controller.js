@@ -29,7 +29,4 @@ myApp.controller('mainController', function($scope, $firebase , $firebaseArray) 
      day: 03
      }
      });*/
-
-
-    //$scope.jsVariable = "El controlador está funcionando";
 });

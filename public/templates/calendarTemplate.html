@@ -25,9 +25,11 @@
                         <div class="day-number">
                               {{ date.day || "&nbsp;" }}
                         </div> 
-                        <div class="event-title" ng-repeat="events in date.event | limitTo : options.maxEventsPerDay" ng-if="options.multiEventDates">{{ events.title || "&nbsp;" }}
+                        <div class="event-title"
+                        ng-repeat="events in date.event | limitTo : options.maxEventsPerDay"
+                        ng-if="options.multiEventDates">{{ events.title || "&nbsp;" }}
                               <div ng-if="date.event.length > options.maxEventsPerDay">
-                                    More Events
+                                    Más eventos
                               </div>
                         </div>	  	  
                         <div class="event-title" ng-if="!options.multiEventDates">

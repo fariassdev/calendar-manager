@@ -24,6 +24,7 @@
 
     <!-- Angular app scripts -->
   	<script type="text/javascript" src="/javascripts/main/main.js"></script>
+    <script type="text/javascript" src="/javascripts/controllers/sinchronized-array.js"></script>
   	<script type="text/javascript" src="/javascripts/controllers/dialog.js"></script>
   	<script type="text/javascript" src="/javascripts/controllers/calendar-options.js"></script>
   	<script type="text/javascript" src="/javascripts/controllers/main-controller.js"></script>
@@ -32,5 +33,19 @@
   </head>
   <body ng-controller="calendar-options">
     <simple-calendar events="events" options="calendarOptions"></simple-calendar>
+    <div ng-controller="arrayCtrl" class="eventos" style="margin-top: 50px;">
+      <h1>Pruebas</h1>
+      <ul>
+        <li ng-repeat="event in events">{{ event.title }}</li>
+      </ul>
+
+      <div id="anyadirEvento" style="margin-top: 30px;">
+        Título: <input type="text" ng-model="newEvent.title" />
+        Date: <input type="text" ng-model="newEvent.date" />
+        User: <input type="text" ng-model="newEvent.user" />
+        <button ng-click="addEvent()">Añadir</button>
+      </div>
+
+    </div>
   </body>
 </html>
