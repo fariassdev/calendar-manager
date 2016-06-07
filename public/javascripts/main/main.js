@@ -1,1 +1,1 @@
-var myApp = angular.module('calendar-manager', ['firebase','calendar-module','firebaseArray','ngMaterial']);
+var myApp = angular.module('calendar-manager', ['firebase','calendar-module','ngMaterial']);

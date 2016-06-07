@@ -25,6 +25,7 @@
     <!-- Angular app scripts -->
   	<script type="text/javascript" src="/javascripts/main/main.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/sinchronized-array.js"></script>
+    <script type="text/javascript" src="/javascripts/services/firebase-service.js"></script>
   	<script type="text/javascript" src="/javascripts/controllers/dialog.js"></script>
   	<script type="text/javascript" src="/javascripts/controllers/calendar-options.js"></script>
   	<script type="text/javascript" src="/javascripts/controllers/main-controller.js"></script>
@@ -39,7 +40,7 @@
         <li ng-repeat="event in events">{{ event.title }}</li>
       </ul>
 
-      <div id="anyadirEvento" style="margin-top: 30px;">
+      <div id="addEvent" style="margin: 30px 0;">
         Título: <input type="text" ng-model="newEvent.title" />
         Date: <input type="text" ng-model="newEvent.date" />
         User: <input type="text" ng-model="newEvent.user" />

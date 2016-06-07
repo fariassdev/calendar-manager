@@ -6,7 +6,7 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
       events: '=?'
     },
     templateUrl: 'templates/calendarTemplate.html',
-    controller: ['$scope', function ($scope) {
+    controller: ['$scope', 'dbService', function ($scope, dbService) {
       var MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
       var WEEKDAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
       var calculateSelectedDate, calculateWeeks, allowedDate, bindEvent;
@@ -25,8 +25,8 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
         }
       };
 
-      $scope.options.dateClick = function(date) {
-        console.log("He pulsado en una fecha SIN EVENTO");
+      $scope.options.dateClick = function() {
+
       };
 
       $scope.options.eventClick = function(date) {
