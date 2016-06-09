@@ -26,7 +26,7 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
       };
 
       $scope.options.dateClick = function() {
-
+        console.log("SIN EVENTO");
       };
 
       $scope.options.eventClick = function(date) {
