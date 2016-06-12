@@ -14,7 +14,7 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
       $scope.options = $scope.options || {};
       $scope.options.dayNamesLength = $scope.options.dayNamesLength || 1;
       $scope.options.multiEventDates = $scope.options.multiEventDates || false;
-	    $scope.options.maxEventsPerDay = $scope.options.maxEventsPerDay || 3;
+      $scope.options.maxEventsPerDay = $scope.options.maxEventsPerDay || 3;
 
       $scope.onClick = function (date) {
         if (!date || date.disabled) { return; }

@@ -13,16 +13,30 @@ myApp.factory("dbService",function() {
       console.log("The read failed: " + errorObject.code);
     });
 
+    var addEvent = {
+        titler: "",
+        dater: "",
+        userr: "",
+        addEvent: function(titler,dater,userr){
+            ref.push().set({
+                title: titler,
+                date: dater,
+                user: userr
+            });
+        }
+    }
+    return addEvent;
+    /*
     return {
-        addEvent: function( newCalendarEvent ) {
-           /* ref.push().set({
-                title: $scope.newEvent.title,
-                date: $scope.newEvent.date,
-                user: $scope.newEvent.user
-            });*/
+        addEvent: function( titler, dater, userr ) {
+            ref.push().set({
+                title: titler,
+                date: dater,
+                user: userr
+            });
 
             console.log( newCalendarEvent );
 
         }
-    }
+    }*/
 })
