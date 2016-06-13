@@ -10,4 +10,35 @@ myApp.controller('calendar-options', ['$scope',  function($scope) {
         eventClick: $scope.eventClick,
         dateClick: $scope.dateClick
     };
+
+
+    $scope.events = [ //llamada a firebase
+        {title: 'NY', date: new Date([2015, 12, 31])},
+        {title: 'ID', date: new Date([2015, 6, 4])}
+    ];
+
+    console.log( "CONTROLADOR" );
+
+    var ref = new Firebase("https://calendar-manager.firebaseio.com/data");
+    // Attach an asynchronous callback to read the data at our posts reference
+    ref.on( "value", function( snapshot ) {
+
+        snapshot.forEach( function( current ) {
+            console.log( "current", current );
+        });
+
+        var data = snapshot.val();
+
+        console.log( data )
+
+        // recorrer data
+
+        // traducir o adaptar formato firebase a  {title: 'NY', date: new Date([2015, 12, 31])},
+
+        // para cada data -> push $scope.events
+
+    }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+    });
+
 }]);

@@ -43,16 +43,25 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
         $scope.options.maxDate = new Date($scope.options.maxDate);
       }
 
-      bindEvent = function (date) { //Modificar para contemplar la posibilidad de ponerle Hora y Minuto !!! -> con new Date("2016-06-02 17:00")
-        if (!date || !$scope.events) { return; }
+      bindEvent = function ( date ) { //Modificar para contemplar la posibilidad de ponerle Hora y Minuto !!! -> con
+        // new Date("2016-06-02 17:00")
+
+        if ( !date || !$scope.events ) { return; }
+
         date.event = [];
-        $scope.events.forEach(function(event) {
-          event.date = new Date(event.date);
-          if (date.year === event.date.getFullYear() &&
+
+        $scope.events.forEach( function( event ) {
+
+          event.date = new Date( event.date );
+
+          if ( date.year === event.date.getFullYear() &&
             date.month === event.date.getMonth() &&
             date.day === event.date.getDate()) {
+
               date.event.push(event);
+
           }
+
         });
       };
 
@@ -124,9 +133,15 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
           };
 
           if (allowedDate(week[dayNumber])) {
-            if ($scope.events) { bindEvent(week[dayNumber]); }
+
+            if ( $scope.events ) {
+              bindEvent( week[ dayNumber ] );
+            }
+
           } else {
-            week[dayNumber].disabled = true;
+
+              week[dayNumber].disabled = true;
+
           }
 
           if (dayNumber === 6 || day === daysInCurrentMonth) {
@@ -197,12 +212,19 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
         calculateWeeks();
       };
 
-      $scope.$watch('options.defaultDate', function() {
+      $scope.$watch( 'options.defaultDate', function() {
+
+        console.log( "Watch 1" )
+
         calculateSelectedDate();
+
       });
 
-      $scope.$watch('events', function() {
+      $scope.$watch( 'events', function() {
+        console.log( "Watch 2" )
+
         calculateWeeks();
+
       });
 
     }]

@@ -9,6 +9,8 @@
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
 
+
+
     <!-- Angular Libraries -->
   	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 
@@ -22,6 +24,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
 
+
     <!-- Angular app scripts -->
   	<script type="text/javascript" src="/javascripts/main/main.js"></script>
     <script type="text/javascript" src="/javascripts/controllers/sinchronized-array.js"></script>
@@ -34,19 +37,5 @@
   </head>
   <body ng-controller="calendar-options">
     <simple-calendar events="events" options="calendarOptions"></simple-calendar>
-    <div ng-controller="arrayCtrl" class="eventos" style="margin-top: 50px;">
-      <h1>Pruebas</h1>
-      <ul>
-        <li ng-repeat="event in events">{{ event.title }}</li>
-      </ul>
-
-      <div id="addEvent" style="margin: 30px 0;">
-        Título: <input type="text" ng-model="newEvent.title" />
-        Date: <input type="text" ng-model="newEvent.date" />
-        User: <input type="text" ng-model="newEvent.user" />
-        <button ng-click="addEvent()">Añadir</button>
-      </div>
-
-    </div>
   </body>
 </html>
