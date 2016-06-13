@@ -18,21 +18,24 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
 
       $scope.onClick = function (date) {
         if (!date || date.disabled) { return; }
-        if (date.event != null) {
+        if (date.event.length > 0) {
           $scope.options.eventClick(date);
         } else {
           $scope.options.dateClick(date);
         }
       };
 
-      $scope.options.dateClick = function() {
-        console.log("SIN EVENTO");
+      $scope.options.dateClick = function(date) {
+        console.log("He pulsado en una fecha SIN EVENTO");
+        showConfirm($event);
       };
 
       $scope.options.eventClick = function(date) {
         console.log("He pulsado en una fecha CON EVENTO");
-        console.log(date.event[0].title); //Título
-        console.log(date.event[0].date); //Fecha (puedo acceder a los métodos de Date de JS)
+        for (i=0;i<date.event.length;i++) {
+          console.log("Título del evento ",i,": ",date.event[i].title); //Título
+          console.log("Fecha del evento ",i,": ",date.event[i].date); //Fecha (puedo acceder a los métodos de Date de JS)
+        }
       };
 
       if ($scope.options.minDate) {
@@ -51,7 +54,6 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
         date.event = [];
 
         $scope.events.forEach( function( event ) {
-
           event.date = new Date( event.date );
 
           if ( date.year === event.date.getFullYear() &&
@@ -133,7 +135,6 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
           };
 
           if (allowedDate(week[dayNumber])) {
-
             if ( $scope.events ) {
               bindEvent( week[ dayNumber ] );
             }
@@ -214,14 +215,14 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
 
       $scope.$watch( 'options.defaultDate', function() {
 
-        console.log( "Watch 1" )
+        console.log( "Watch 1" );
 
         calculateSelectedDate();
 
       });
 
       $scope.$watch( 'events', function() {
-        console.log( "Watch 2" )
+        console.log( "Watch 2" );
 
         calculateWeeks();
 

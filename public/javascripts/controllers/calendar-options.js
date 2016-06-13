@@ -13,8 +13,8 @@ myApp.controller('calendar-options', ['$scope',  function($scope) {
 
 
     $scope.events = [ //llamada a firebase
-        {title: 'NY', date: new Date([2015, 12, 31])},
-        {title: 'ID', date: new Date([2015, 6, 4])}
+        {title: 'NY', date: "2016-06-03"},
+        {title: 'ID', date: new Date([2016, 6, 4])}
     ];
 
     console.log( "CONTROLADOR" );
@@ -24,18 +24,10 @@ myApp.controller('calendar-options', ['$scope',  function($scope) {
     ref.on( "value", function( snapshot ) {
 
         snapshot.forEach( function( current ) {
-            console.log( "current", current );
+            $scope.events.push(current.val());
         });
 
-        var data = snapshot.val();
-
-        console.log( data )
-
-        // recorrer data
-
-        // traducir o adaptar formato firebase a  {title: 'NY', date: new Date([2015, 12, 31])},
-
-        // para cada data -> push $scope.events
+        console.log("SCOPE EN OPTIONS CONTROLLER: " , $scope.events);
 
     }, function (errorObject) {
         console.log("The read failed: " + errorObject.code);
