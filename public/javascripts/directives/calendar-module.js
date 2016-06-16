@@ -6,7 +6,7 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
             events: '=?'
         },
         templateUrl: 'templates/calendarTemplate.html',
-        controller: ['$scope', 'dbService', function ($scope, dbService, firebase) {
+        controller: ['$scope', '$compile', function ($scope, $compile, firebase) {
             var ref = new Firebase("https://calendar-manager.firebaseio.com/");
             var MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
             var WEEKDAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -28,16 +28,28 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
                 }
             };
 
-            $scope.options.dateClick = function(date) {
-                console.log("He pulsado en una fecha SIN EVENTO");
-                console.log("La fecha para añadir un evento es: ",date);
-                var fecha = date.year + "-" + date.month + "-" + date.day;
-
-                var newEventRef = ref.child( fecha );
+            $scope.addEvent = function ( dateStr ) {
+                var eventTitle = $("#event-title").val();
+                dateStr = dateStr + " " + $("#event-hour").val();
+                var eventUser = $("#event-user").val();
+                var newEventRef = ref.child( dateStr );
                 newEventRef.update({
-                    title: "Prueba",
-                    user: "Andrés",
-                    date: fecha
+                    title: eventTitle,
+                    date: dateStr,
+                    user: eventUser
+                });
+            };
+
+            $scope.options.dateClick = function( date ) {
+                console.log("He pulsado en una fecha SIN EVENTO");
+                $('#exampleModal').on('show.bs.modal', function (event) {
+                    var fecha = date.year + "-" + (date.month+1) + "-" + date.day;
+                    var button = $(event.relatedTarget);
+                    var modal = $(this);
+                    var boton = modal.find('#add-event-button').attr("ng-click","addEvent('"+fecha+"'"+")");
+                    $compile(boton)($scope);
+                    var fecha = new Date(date.year + "-" + (date.month+1) + "-" + date.day);
+                    modal.find('.modal-title').text('Añadir evento al día: ' + WEEKDAYS[fecha.getDay()] + ", " + fecha.getDate() + ' de ' + MONTHS[fecha.getMonth()] + ' de ' + fecha.getFullYear());
                 });
             };
 
@@ -49,6 +61,7 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
                     console.log("Usuario del evento ",i,": ",date.event[i].user); //Usuario
                 }
             };
+
 
             if ($scope.options.minDate) {
                 $scope.options.minDate = new Date($scope.options.minDate);
@@ -237,17 +250,7 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
 
             // Attach an asynchronous callback to read the data at our posts reference
             ref.on( "value", function( snapshot ) {
-
-                //snapshot.forEach( function( current ) {
-                //    $scope.events.push(current.val());
-                //});
-
-                //console.log( "HE RELLENADO EL SCOPE CON LOS EVENTOS FIREBASE" );
-                //
-                //calculateWeeks();
-
-                //$scope.$apply();
-
+                console.log( "Read events successfully from Firebase" );
             }, function (errorObject) {
                 console.log("The read failed: " + errorObject.code);
             });
@@ -257,7 +260,7 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
                 var newEvent = snapshot.val();
                 $scope.events.push(newEvent);
                 calculateWeeks();
-                $scope.$apply();
+                $scope.$applyAsync();
             });
 
 
@@ -265,13 +268,12 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
             // Get the data on a post that has been removed
             ref.on("child_removed", function(snapshot) {
                 var deletedEvent = snapshot.val();
+                var deletedEventDate = new Date(deletedEvent.date).getTime();
                 angular.forEach( $scope.events, function( value, key ) {
-                    if ( ( $scope.events[key].title === deletedEvent.title ) && ( $scope.events[key].date === deletedEvent.date ) ) {
-                        console.log( "$scope ANTES DEL SPLICE: ", $scope.events );
+                    if ( ( $scope.events[key].title === deletedEvent.title ) && ( $scope.events[key].date.getTime() === deletedEventDate ) ) {
                         $scope.events.splice(key, 1);
-                        console.log( "$scope DESPUÉS DEL SPLICE: ", $scope.events );
-                        console.log("The event titled '" + deletedEvent.title + "' has been deleted from SCOPE");
-                        $scope.$apply();
+                        calculateWeeks();
+                        $scope.$applyAsync();
                     }
                 });
             });
