@@ -36,6 +36,7 @@ simple-calendar .prev-month {
   width: 55px;
   background-color: khaki;
   border-radius: 5px;
+  margin-left: 20px;
   -webkit-box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
   -moz-box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
   box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
@@ -47,6 +48,7 @@ simple-calendar .next-month {
   width: 55px;
   background-color: khaki;
   border-radius: 5px;
+  margin-right: 20px;
   -webkit-box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
   -moz-box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
   box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
@@ -187,6 +189,10 @@ simple-calendar .event-title {
   font-size: 0.9vw;
 }
 
+/* ******************************* */
+/* START Event title custom colors */
+/* ******************************* */
+
 simple-calendar .event-title.Verde {
   background-color: palegreen;
 }
@@ -215,14 +221,35 @@ simple-calendar .event-title.Negro {
   background-color: #434343;
   color: azure;
 }
+/* ***************************** */
+/* END Event title custom colors */
+/* ***************************** */
 
+/* ******************* */
+/* START Media Queries */
+/* ******************* */
 
+@media (max-width: 1200px) {
+
+  simple-calendar .event-title {
+    font-size: 1.3vw;
+  }
+
+  simple-calendar .day-number {
+    font-size: 2vw;
+  }
+
+}
 
 @media (max-width: 800px), (max-height: 800px) {
 
   simple-calendar .selected-month,
   simple-calendar .selected-year {
     font-size: 2.5rem;
+  }
+
+  simple-calendar .event-title {
+    font-size: 1.5vw;
   }
 
 }
