@@ -1,3 +1,5 @@
 .metadata/
 .idea/
 calendar-manager.iml
+calendar-manager-export.json
+calendar-manager-export-date-keys.json
