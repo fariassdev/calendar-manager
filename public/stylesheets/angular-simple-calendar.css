@@ -2,6 +2,10 @@ simple-calendar * {
   user-select: none;
 }
 
+simple-calendar .hidden {
+  display: none;
+}
+
 simple-calendar .calendar{
   padding: 0;
   border: 1px solid #dddddd;

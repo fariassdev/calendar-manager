@@ -6,7 +6,7 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
             events: '=?'
         },
         templateUrl: 'templates/calendarTemplate.html',
-        controller: ['$scope', '$compile', function ($scope, $compile, firebase) {
+        controller: ['$scope', function ($scope, firebase) {
             var ref = new Firebase("https://calendar-manager.firebaseio.com/");
             var MONTHS = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
             var WEEKDAYS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
@@ -19,47 +19,90 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
             $scope.options.multiEventDates = $scope.options.multiEventDates || false;
             $scope.options.maxEventsPerDay = $scope.options.maxEventsPerDay || 3;
 
-            $scope.onClick = function (date) {
-                if (!date || date.disabled) { return; }
-                if (date.event.length > 0) {
-                    $scope.options.eventClick(date);
-                } else {
-                    $scope.options.dateClick(date);
-                }
-            };
-
-            $scope.addEvent = function ( dateStr ) {
-                var eventTitle = $("#event-title").val();
-                dateStr = dateStr + " " + $("#event-hour").val();
-                var eventUser = $("#event-user").val();
-                var newEventRef = ref.child( dateStr );
-                newEventRef.update({
-                    title: eventTitle,
-                    date: dateStr,
-                    user: eventUser
-                });
-            };
+            //$scope.onClick = function (date) {
+            //    if ( !date || date.disabled ) { return; }
+            //    if (date.event.length > 0) {
+            //        $scope.options.eventClick( date );
+            //        $('#removeEventForm').modal('show');
+            //    } else {
+            //        $scope.options.dateClick( date );
+            //        $('#addEventForm').modal('show');
+            //    }
+            //};
 
             $scope.options.dateClick = function( date ) {
-                console.log("He pulsado en una fecha SIN EVENTO");
-                $('#exampleModal').on('show.bs.modal', function (event) {
+                $('#addEventForm').modal('show');
+                $('#addEventForm').on('show.bs.modal', function (event) {
+                    if ( $("#event-title-container").hasClass( "has-error" ) ) {
+                        $("#event-title-container").removeClass("has-error");
+                        $("#event-title-error-message").addClass("hidden");
+                    }
+                    $(".form-control").val("");
                     var fecha = date.year + "-" + (date.month+1) + "-" + date.day;
-                    var button = $(event.relatedTarget);
+                    $scope.dateToAddEvent = fecha;
                     var modal = $(this);
-                    var boton = modal.find('#add-event-button').attr("ng-click","addEvent('"+fecha+"'"+")");
-                    $compile(boton)($scope);
-                    var fecha = new Date(date.year + "-" + (date.month+1) + "-" + date.day);
+                    fecha = new Date(date.year + "-" + (date.month+1) + "-" + date.day);
                     modal.find('.modal-title').text('Añadir evento al día: ' + WEEKDAYS[fecha.getDay()] + ", " + fecha.getDate() + ' de ' + MONTHS[fecha.getMonth()] + ' de ' + fecha.getFullYear());
                 });
             };
 
-            $scope.options.eventClick = function(date) {
-                console.log("He pulsado en una fecha CON EVENTO");
-                for (i=0;i<date.event.length;i++) {
-                    console.log("Título del evento ",i,": ",date.event[i].title); //Título
-                    console.log("Fecha del evento ",i,": ",date.event[i].date); //Fecha (puedo acceder a los métodos de Date de JS)
-                    console.log("Usuario del evento ",i,": ",date.event[i].user); //Usuario
+            $scope.options.eventClick = function( date ) {
+                $('#removeEventForm').modal('show');
+                $scope.selectedEvent = date.event[0];
+                $scope.selectedEvent.hours = $scope.selectedEvent.date.getHours();
+                $scope.selectedEvent.minutes = $scope.selectedEvent.date.getMinutes();
+                //console.log("Horas del evento seleccionado: ",$scope.selectedEvent.date.getHours());
+                //console.log("Horas del evento seleccionado: ",$scope.selectedEvent.date.getMinutes());
+                //
+                //console.log("Selected Event: ",$scope.selectedEvent);
+                //console.log("Selected Event.date: ",$scope.selectedEvent.date);
+                $('#removeEventForm').on('show.bs.modal', function (event) {
+                    var fecha = date.year + "-" + (date.month+1) + "-" + date.day;
+                    $scope.dateToAddEvent = fecha;
+                    var modal = $(this);
+                    fecha = new Date(date.year + "-" + (date.month+1) + "-" + date.day);
+                    modal.find('.modal-title').text('Eliminar evento del día: ' + WEEKDAYS[fecha.getDay()] + ", " + fecha.getDate() + ' de ' + MONTHS[fecha.getMonth()] + ' de ' + fecha.getFullYear());
+                });
+            };
+
+            $scope.addEvent = function () {
+                if ( !$("#event-title").val() ) {
+                    $("#event-title-container").addClass( "has-error" );
+                    $("#event-title-error-message").removeClass( "hidden" );
+                } else {
+                    var eventTitle = $("#event-title").val();
+                    var eventHours = $("#event-hours").val();
+                    var eventMinutes = $("#event-minutes").val();
+                    var eventColor = $("#event-color").val();
+                    if ( !$("#event-hours").val() ) {
+                        eventHours = "00";
+                    }
+                    if ( !$("#event-minutes").val() ) {
+                        eventMinutes = "00";
+                    }
+                    console.log("Date a la que añadiré el evento: ", $scope.dateToAddEvent);
+                    var newEventRef = $scope.dateToAddEvent + "_" + eventHours + ":" + eventMinutes + "_" + (Math.round(Math.random() * 100000000));
+                    var dateStr = $scope.dateToAddEvent + " " + eventHours + ":" + eventMinutes;
+                    if ( !$("#event-color").val() ) {
+                        ref.child( newEventRef ).update({
+                            title: eventTitle,
+                            date: dateStr
+                        });
+                    } else {
+                        ref.child( newEventRef ).update({
+                            title: eventTitle,
+                            date: dateStr,
+                            color: eventColor
+                        });
+                    }
+                    $('#addEventForm').modal('hide');
                 }
+            };
+
+            $scope.removeEvent = function () {
+                var eventToRemoveRef = ref.child( $scope.selectedEvent.key );
+                eventToRemoveRef.remove();
+                $('#removeEventForm').modal('hide');
             };
 
 
@@ -161,11 +204,8 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
                         if ( $scope.events ) {
                             bindEvent( week[ dayNumber ] );
                         }
-
                     } else {
-
                         week[dayNumber].disabled = true;
-
                     }
 
                     if (dayNumber === 6 || day === daysInCurrentMonth) {
@@ -248,22 +288,15 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
 
             });
 
-            // Attach an asynchronous callback to read the data at our posts reference
-            ref.on( "value", function( snapshot ) {
-                console.log( "Read events successfully from Firebase" );
-            }, function (errorObject) {
-                console.log("The read failed: " + errorObject.code);
-            });
-
             // Retrieve new posts as they are added to our database
             ref.on("child_added", function(snapshot, prevChildKey) {
+                console.log("Se ha añadido un evento a Firebase");
                 var newEvent = snapshot.val();
+                newEvent.key = snapshot.key();
                 $scope.events.push(newEvent);
                 calculateWeeks();
                 $scope.$applyAsync();
             });
-
-
 
             // Get the data on a post that has been removed
             ref.on("child_removed", function(snapshot) {

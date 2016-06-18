@@ -21,52 +21,158 @@
                   <div class="day" 
                   ng-class="{default: isDefaultDate(date), event: date.event.length > 0, disabled: date.disabled || !date}" 
                   ng-repeat="date in week  track by $index"
-                  ng-click="onClick(date)" data-toggle="modal" data-target="#exampleModal">
+                  ng-click="options.dateClick(date)">
                         <div class="day-number">
                               {{ date.day || "&nbsp;" }}
-                        </div> 
+                        </div>
                         <div class="event-title"
                         ng-repeat="events in date.event | limitTo : options.maxEventsPerDay"
-                        ng-if="options.multiEventDates">{{ events.title || "&nbsp;" }}
+                        ng-if="options.multiEventDates"
+                        ng-click="options.eventClick(date)">
+                              {{ events.title || "&nbsp;" }}
                               <div ng-if="date.event.length > options.maxEventsPerDay">
                                     Más eventos
                               </div>
-                        </div>	  	  
+                        </div>
                         <div class="event-title" ng-if="!options.multiEventDates">
                               {{ date.event.title || "&nbsp;" }}
                         </div> 
-                  </div> 
+                  </div>
             </div> 
       </div>
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal fade" id="addEventForm" tabindex="-1" role="dialog" aria-labelledby="addEventFormLabel">
             <div class="modal-dialog" role="document">
                   <div class="modal-content">
                         <div class="modal-header">
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                              <h4 class="modal-title" id="exampleModalLabel">Añadir evento</h4>
+                              <h4 class="modal-title" id="addEventFormLabel">Añadir evento al día: </h4>
                         </div>
                         <div class="modal-body">
                               <form>
                                     <div class="form-group">
-                                          <label for="event-title" class="control-label">Título:</label>
-                                          <input type="text" class="form-control" id="event-title">
+                                          <div class="row">
+                                                <div id="event-title-container" class="form-group col-md-12">
+                                                      <label class="control-label" for="event-title">Título*</label>
+                                                      <input type="text" class="form-control" id="event-title" placeholder="Título">
+                                                      <span id="event-title-error-message" class="help-block hidden">El título es obligatorio</span>
+                                                </div>
+                                          </div>
                                     </div>
                                     <div class="form-group">
-                                          <label for="event-hour" class="control-label">Hora:</label>
-                                          <input type="text" class="form-control" id="event-hour">
-                                    </div>
-                                    <div class="form-group">
-                                          <label for="event-user" class="control-label">User:</label>
-                                          <input type="text" class="form-control" id="event-user">
+                                          <div class="row">
+                                                <div class="col-md-8">
+                                                      <label for="event-color" class="control-label">Color</label>
+                                                      <select id="event-color" class="form-control">
+                                                            <option value="">Por defecto</option>
+                                                            <option value="Verde">Verde</option>
+                                                            <option value="Azul">Azul</option>
+                                                            <option value="Amarillo">Amarillo</option>
+                                                      </select>
+                                                </div>
+                                                <div class="col-md-2">
+                                                      <label for="event-hours" class="control-label">Horas</label>
+                                                      <select id="event-hours" class="form-control">
+                                                            <option value="">00</option>
+                                                            <option value="1">01</option>
+                                                            <option value="2">02</option>
+                                                            <option value="3">03</option>
+                                                            <option value="4">04</option>
+                                                            <option value="5">05</option>
+                                                            <option value="6">06</option>
+                                                            <option value="7">07</option>
+                                                            <option value="8">08</option>
+                                                            <option value="9">09</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                            <option value="13">13</option>
+                                                            <option value="14">14</option>
+                                                            <option value="15">15</option>
+                                                            <option value="16">16</option>
+                                                            <option value="17">17</option>
+                                                            <option value="18">18</option>
+                                                            <option value="19">19</option>
+                                                            <option value="20">20</option>
+                                                            <option value="21">21</option>
+                                                            <option value="22">22</option>
+                                                            <option value="23">23</option>
+                                                      </select>
+                                                </div>
+
+                                                <div class="col-md-2 selectContainer">
+                                                      <label for="event-minutes" class="control-label">Minutos</label>
+                                                      <select id="event-minutes" class="form-control">
+                                                            <option value="">00</option>
+                                                            <option value="5">05</option>
+                                                            <option value="10">10</option>
+                                                            <option value="15">15</option>
+                                                            <option value="20">20</option>
+                                                            <option value="25">25</option>
+                                                            <option value="30">30</option>
+                                                            <option value="35">35</option>
+                                                            <option value="40">40</option>
+                                                            <option value="45">45</option>
+                                                            <option value="50">50</option>
+                                                            <option value="55">55</option>
+                                                      </select>
+                                                </div>
+                                          </div>
                                     </div>
                               </form>
                         </div>
                         <div class="modal-footer">
                               <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                              <button id="add-event-button" type="button" class="btn btn-success">Añadir evento</button>
+                              <button id="add-event-button" type="button" class="btn btn-warning" ng-click="addEvent()">Añadir evento</button>
                         </div>
                   </div>
             </div>
       </div>
+
+
+
+      <div class="modal fade" id="removeEventForm" tabindex="-1" role="dialog" aria-labelledby="addEventFormLabel">
+            <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                        <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              <h4 class="modal-title" id="removeEventFormLabel">Eliminar evento del día: </h4>
+                        </div>
+                        <div class="modal-body">
+                              <form>
+                                    <div class="form-group">
+                                          <div class="row">
+                                                <div class="col-md-12">
+                                                      <label class="control-label" for="event-title-remove">Título</label>
+                                                      <input type="text" class="form-control" id="event-title-remove" readonly="readonly" ng-model="selectedEvent.title">
+                                                </div>
+                                          </div>
+                                    </div>
+                                    <div class="form-group">
+                                          <div class="row">
+                                                <div class="col-md-8">
+                                                      <label for="event-color-remove" class="control-label">Color</label>
+                                                      <input type="text" class="form-control" id="event-color-remove" readonly="readonly" ng-model="selectedEvent.color">
+                                                </div>
+                                                <div class="col-md-2">
+                                                      <label for="event-hours-remove" class="control-label">Horas</label>
+                                                      <input type="text" class="form-control" id="event-hours-remove" readonly="readonly" ng-model="selectedEvent.hours">
+                                                </div>
+
+                                                <div class="col-md-2 selectContainer">
+                                                      <label for="event-minutes-remove" class="control-label">Minutos</label>
+                                                      <input type="text" class="form-control" id="event-minutes-remove" readonly="readonly" ng-model="selectedEvent.minutes">
+                                                </div>
+                                          </div>
+                                    </div>
+                              </form>
+                        </div>
+                        <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                              <button id="remove-event-button" type="button" class="btn btn-danger" ng-click="removeEvent()">Eliminar evento</button>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
 </div>
