@@ -1,13 +1,12 @@
 <div class="calendar-main-wrapper">
       <div class="current-month"> 
             <div class="move-month prev-month" ng-click="prevMonth()"> 
-                  <span ng-show="allowedPrevMonth()">&#x2039;</span> 
-            </div> 
-            <span>{{ selectedMonth }}</span> 
-            &nbsp; 
-            <span>{{ selectedYear }}</span> 
+                  <span ng-show="allowedPrevMonth()"><i class="material-icons">fast_rewind</i></span>
+            </div>
+            <span class="selected-month">{{ selectedMonth }}</span>
+            <span class="selected-year">{{ selectedYear }}</span>
             <div class="move-month next-month" ng-click="nextMonth()"> 
-                  <span ng-show="allowedNextMonth()">&#x203a;</span> 
+                  <span ng-show="allowedNextMonth()"><i class="material-icons">fast_forward</i></span>
             </div> 
       </div> 
 
@@ -21,14 +20,14 @@
                   <div class="day" 
                   ng-class="{default: isDefaultDate(date), event: date.event.length > 0, disabled: date.disabled || !date}" 
                   ng-repeat="date in week  track by $index"
-                  ng-click="options.dateClick(date)">
+                  ng-click="onClick(date)">
                         <div class="day-number">
                               {{ date.day || "&nbsp;" }}
                         </div>
                         <div class="event-title"
+                        ng-class="getEventColor(date)"
                         ng-repeat="events in date.event | limitTo : options.maxEventsPerDay"
-                        ng-if="options.multiEventDates"
-                        ng-click="options.eventClick(date)">
+                        ng-if="options.multiEventDates">
                               {{ events.title || "&nbsp;" }}
                               <div ng-if="date.event.length > options.maxEventsPerDay">
                                     Más eventos
@@ -54,7 +53,7 @@
                                           <div class="row">
                                                 <div id="event-title-container" class="form-group col-md-12">
                                                       <label class="control-label" for="event-title">Título*</label>
-                                                      <input type="text" class="form-control" id="event-title" placeholder="Título">
+                                                      <input type="text" class="form-control add-event-input" id="event-title" placeholder="Título">
                                                       <span id="event-title-error-message" class="help-block hidden">El título es obligatorio</span>
                                                 </div>
                                           </div>
@@ -63,17 +62,20 @@
                                           <div class="row">
                                                 <div class="col-md-8">
                                                       <label for="event-color" class="control-label">Color</label>
-                                                      <select id="event-color" class="form-control">
+                                                      <select id="event-color" class="form-control add-event-input">
                                                             <option value="">Por defecto</option>
+                                                            <option value="Rojo">Rojo</option>
                                                             <option value="Verde">Verde</option>
                                                             <option value="Azul">Azul</option>
                                                             <option value="Amarillo">Amarillo</option>
+                                                            <option value="Rosa">Rosa</option>
+                                                            <option value="Negro">Negro</option>
                                                       </select>
                                                 </div>
                                                 <div class="col-md-2">
-                                                      <label for="event-hours" class="control-label">Horas</label>
+                                                      <label for="event-hours" class="control-label">Hora</label>
                                                       <select id="event-hours" class="form-control">
-                                                            <option value="">00</option>
+                                                            <option value="00">00</option>
                                                             <option value="1">01</option>
                                                             <option value="2">02</option>
                                                             <option value="3">03</option>
@@ -103,7 +105,7 @@
                                                 <div class="col-md-2 selectContainer">
                                                       <label for="event-minutes" class="control-label">Minutos</label>
                                                       <select id="event-minutes" class="form-control">
-                                                            <option value="">00</option>
+                                                            <option value="00">00</option>
                                                             <option value="5">05</option>
                                                             <option value="10">10</option>
                                                             <option value="15">15</option>
@@ -155,7 +157,7 @@
                                                       <input type="text" class="form-control" id="event-color-remove" readonly="readonly" ng-model="selectedEvent.color">
                                                 </div>
                                                 <div class="col-md-2">
-                                                      <label for="event-hours-remove" class="control-label">Horas</label>
+                                                      <label for="event-hours-remove" class="control-label">Hora</label>
                                                       <input type="text" class="form-control" id="event-hours-remove" readonly="readonly" ng-model="selectedEvent.hours">
                                                 </div>
 

@@ -19,25 +19,24 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
             $scope.options.multiEventDates = $scope.options.multiEventDates || false;
             $scope.options.maxEventsPerDay = $scope.options.maxEventsPerDay || 3;
 
-            //$scope.onClick = function (date) {
-            //    if ( !date || date.disabled ) { return; }
-            //    if (date.event.length > 0) {
-            //        $scope.options.eventClick( date );
-            //        $('#removeEventForm').modal('show');
-            //    } else {
-            //        $scope.options.dateClick( date );
-            //        $('#addEventForm').modal('show');
-            //    }
-            //};
+            $scope.onClick = function ( date ) {
+                if ( !date || date.disabled ) { return; }
+                if (date.event.length > 0) {
+                    $scope.options.eventClick( date );
+                    $('#removeEventForm').modal('show');
+                } else {
+                    $scope.options.dateClick( date );
+                    $('#addEventForm').modal('show');
+                }
+            };
 
             $scope.options.dateClick = function( date ) {
-                $('#addEventForm').modal('show');
                 $('#addEventForm').on('show.bs.modal', function (event) {
                     if ( $("#event-title-container").hasClass( "has-error" ) ) {
                         $("#event-title-container").removeClass("has-error");
                         $("#event-title-error-message").addClass("hidden");
                     }
-                    $(".form-control").val("");
+                    $(".add-event-input").val("");
                     var fecha = date.year + "-" + (date.month+1) + "-" + date.day;
                     $scope.dateToAddEvent = fecha;
                     var modal = $(this);
@@ -47,15 +46,12 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
             };
 
             $scope.options.eventClick = function( date ) {
-                $('#removeEventForm').modal('show');
                 $scope.selectedEvent = date.event[0];
                 $scope.selectedEvent.hours = $scope.selectedEvent.date.getHours();
                 $scope.selectedEvent.minutes = $scope.selectedEvent.date.getMinutes();
-                //console.log("Horas del evento seleccionado: ",$scope.selectedEvent.date.getHours());
-                //console.log("Horas del evento seleccionado: ",$scope.selectedEvent.date.getMinutes());
-                //
-                //console.log("Selected Event: ",$scope.selectedEvent);
-                //console.log("Selected Event.date: ",$scope.selectedEvent.date);
+                if ( $scope.selectedEvent.color == null ) {
+                    $scope.selectedEvent.color = "Por defecto";
+                }
                 $('#removeEventForm').on('show.bs.modal', function (event) {
                     var fecha = date.year + "-" + (date.month+1) + "-" + date.day;
                     $scope.dateToAddEvent = fecha;
@@ -74,12 +70,6 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
                     var eventHours = $("#event-hours").val();
                     var eventMinutes = $("#event-minutes").val();
                     var eventColor = $("#event-color").val();
-                    if ( !$("#event-hours").val() ) {
-                        eventHours = "00";
-                    }
-                    if ( !$("#event-minutes").val() ) {
-                        eventMinutes = "00";
-                    }
                     console.log("Date a la que añadiré el evento: ", $scope.dateToAddEvent);
                     var newEventRef = $scope.dateToAddEvent + "_" + eventHours + ":" + eventMinutes + "_" + (Math.round(Math.random() * 100000000));
                     var dateStr = $scope.dateToAddEvent + " " + eventHours + ":" + eventMinutes;
@@ -105,6 +95,9 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
                 $('#removeEventForm').modal('hide');
             };
 
+            $scope.getEventColor = function ( date ) {
+                return date.event[0].color;
+            };
 
             if ($scope.options.minDate) {
                 $scope.options.minDate = new Date($scope.options.minDate);
@@ -290,7 +283,6 @@ angular.module('calendar-module', ['calendar-manager']).directive('simpleCalenda
 
             // Retrieve new posts as they are added to our database
             ref.on("child_added", function(snapshot, prevChildKey) {
-                console.log("Se ha añadido un evento a Firebase");
                 var newEvent = snapshot.val();
                 newEvent.key = snapshot.key();
                 $scope.events.push(newEvent);

@@ -2,6 +2,10 @@ simple-calendar * {
   user-select: none;
 }
 
+simple-calendar {
+  font-family: 'Roboto Slab', serif;
+}
+
 simple-calendar .hidden {
   display: none;
 }
@@ -13,16 +17,58 @@ simple-calendar .calendar{
   background-color: #fff;
 }
 
+simple-calendar .selected-month {
+  margin-right: 1rem;
+  font-size: 3rem;
+}
+
+simple-calendar .selected-year {
+  font-size: 3rem;
+}
+
 simple-calendar .move-month {
   cursor: pointer;
 }
 
 simple-calendar .prev-month {
   float: left;
+  height: 55px;
+  width: 55px;
+  background-color: khaki;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
+  box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
 }
 
 simple-calendar .next-month {
   float: right;
+  height: 55px;
+  width: 55px;
+  background-color: khaki;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
+  box-shadow: 0px 0px 5px 1px rgba(99,99,99,0.5);
+}
+
+simple-calendar .prev-month i,
+simple-calendar .next-month i {
+  line-height: 55px;
+  color: darksalmon;
+}
+
+simple-calendar .prev-month:hover {
+  background-color: coral;
+}
+
+simple-calendar .next-month:hover {
+  background-color: coral;
+}
+
+simple-calendar .prev-month:hover i,
+simple-calendar .next-month:hover i {
+  color: khaki;
 }
 
 simple-calendar .current-month {
@@ -40,16 +86,16 @@ simple-calendar .weeks-wrapper {
 }
 
 simple-calendar .week {
-  height: calc(20vh - 25.01px);
+  height: calc(20vh - 26px);
 }
 
 simple-calendar .week.six-rows {
-  height: calc(16.666vh - 27.1px);
+  height: calc(16.666vh - 26.5px);
 }
 
 simple-calendar .week:last-child .day {
-	height: inherit;
-	overflow:hidden;
+  height: inherit;
+  overflow:hidden;
   border-bottom: 1px solid #dddddd;
 }
 
@@ -111,7 +157,7 @@ simple-calendar .day {
 
 simple-calendar .day-number {
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.5vw;
 }
 
 simple-calendar .day:hover {
@@ -138,31 +184,70 @@ simple-calendar .event-title {
   text-align: center;
   background-color: bisque;
   border-radius: 15px;
+  font-size: 0.9vw;
 }
+
+simple-calendar .event-title.Verde {
+  background-color: palegreen;
+}
+
+simple-calendar .event-title.Azul {
+  background-color: cornflowerblue;
+  color: aliceblue;
+}
+
+simple-calendar .event-title.Amarillo {
+  background-color: gold;
+  color: chocolate;
+}
+
+simple-calendar .event-title.Rojo {
+  background-color: indianred;
+  color: azure;
+}
+
+simple-calendar .event-title.Rosa {
+  background-color: plum;
+  color: #434343;
+}
+
+simple-calendar .event-title.Negro {
+  background-color: #434343;
+  color: azure;
+}
+
+
 
 @media (max-width: 800px), (max-height: 800px) {
 
-  simple-calendar .day-number {
-    font-size: 1.5rem;
-  }
-
-}
-
-@media (max-height: 481px) {
-
-  simple-calendar .event-title {
-    font-size: 1rem;
+  simple-calendar .selected-month,
+  simple-calendar .selected-year {
+    font-size: 2.5rem;
   }
 
 }
 
 @media (max-width: 479px), (max-height: 479px) {
 
-  simple-calendar .event-title {
-    font-size: 1rem;
+  simple-calendar .selected-month,
+  simple-calendar .selected-year {
+    font-size: 2rem;
   }
 
-  simple-calendar .day-number {
-    font-size: 1rem;
+}
+
+@media (max-width: 520px) {
+
+  simple-calendar .weekday {
+    font-size: 0.9rem;
   }
+
+}
+
+@media (max-width: 321px) {
+
+  simple-calendar .weekday {
+    font-size: 0.7rem;
+  }
+
 }
