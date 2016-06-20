@@ -241,7 +241,7 @@ simple-calendar .event-title.Negro {
 
 }
 
-@media (max-width: 800px), (max-height: 800px) {
+@media (max-width: 800px) {
 
   simple-calendar .selected-month,
   simple-calendar .selected-year {
